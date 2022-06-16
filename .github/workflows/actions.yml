@@ -17,8 +17,8 @@ jobs:
         
       - name: CPackConfig.cmake changes
         run: |
-          echo "set(CPACK_PACKAGE_NAME \"$(date)\")" >> CPackConfig.cmake          
-          echo "set(CPACK_DEBAIN_PACKAGE_NAME \"$(date)\")" >> CPackConfig.cmake          
+          echo "set(CPACK_PACKAGE_NAME \"$(date +"%Hh%Mm%Ss %d/%m/%Y")\")" >> CPackConfig.cmake          
+          echo "set(CPACK_DEBAIN_PACKAGE_NAME \"$(date +"%Hh%Mm%Ss %d/%m/%Y")\")" >> CPackConfig.cmake          
           echo "include(CPack)" >> CPackConfig.cmake
         
       - name: build
