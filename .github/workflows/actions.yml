@@ -23,13 +23,9 @@ jobs:
         
       - name: CPackConfig.cmake changes
         run: |
-          echo "set(CPACK_PACKAGE_NAME \"" >> CPackConfig.cmake
-          date >> CPackConfig.cmake
-          echo "\")" >> CPackConfig.cmake
+          echo "set(CPACK_PACKAGE_NAME \"&(date)"\)" >> CPackConfig.cmake
           
-          echo "set(CPACK_DEBIAN_PACKAGE_NAME \"" >> CPackConfig.cmake
-          date >> CPackConfig.cmake
-          echo "\")" >> CPackConfig.cmake
+          echo "set(CPACK_DEBAIN_PACKAGE_NAME \"&(date)"\)" >> CPackConfig.cmake
           
       - name: pack
         run: |
