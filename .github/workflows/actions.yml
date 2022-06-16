@@ -15,17 +15,17 @@ jobs:
       - name: Creating directory for future binary and source code
         run: mkdir artifacts
         
-      - name: build
-        run: |
-          cmake -H. -B_build
-          cmake --build _build
-        working-directory: exec
-        
       - name: CPackConfig.cmake changes
         run: |
           echo "set(CPACK_PACKAGE_NAME \"$(date)\")" >> CPackConfig.cmake          
           echo "set(CPACK_DEBAIN_PACKAGE_NAME \"$(date)\")" >> CPackConfig.cmake          
           echo "include(CPack)" >> CPackConfig.cmake
+        
+      - name: build
+        run: |
+          cmake -H. -B_build
+          cmake --build _build
+        working-directory: exec
           
       - name: pack
         run: |
