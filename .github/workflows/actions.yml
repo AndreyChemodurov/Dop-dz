@@ -1,0 +1,48 @@
+name: Dop-dz-action
+
+on:
+  push:
+    branches: [main]
+    
+jobs:
+  Build-and-pack:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        
+      - name: Creating directory for future binary and source code
+      run: mkdir artifacts
+        
+      - name: build
+        run: |
+          cmake -H. -B_build
+          cmake --build _build
+        working-directory: exec
+        
+      - name: CPackConfig.cmake changes
+        run: |
+          echo "set(CPACK_PACKAGE_NAME \"" >> CPackConfig.cmake
+          date >> CPackConfig.cmake
+          echo "\")" >> CPackConfig.cmake
+          
+          echo "set(CPACK_DEBIAN_PACKAGE_NAME \"" >> CPackConfig.cmake
+          date >> CPackConfig.cmake
+          echo "\")" >> CPackConfig.cmake
+          
+        - name: pack
+          run: |
+            cpack -G "TGZ"
+            cpack -G "DEB"
+            mv *.tar.gz ../../artifacts
+            mv *.deb ../../artifacts
+          working-directory: exec/_build
+          
+        - name: upload
+          uses: actions/upload-artifact@v3
+          with:
+            name: archives
+            path: artifacts
+          
+          
