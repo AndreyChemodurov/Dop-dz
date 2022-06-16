@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Creating directory for future binary and source code
-      run: mkdir artifacts
+        run: mkdir artifacts
         
       - name: build
         run: |
@@ -31,18 +31,18 @@ jobs:
           date >> CPackConfig.cmake
           echo "\")" >> CPackConfig.cmake
           
-        - name: pack
-          run: |
-            cpack -G "TGZ"
-            cpack -G "DEB"
-            mv *.tar.gz ../../artifacts
-            mv *.deb ../../artifacts
-          working-directory: exec/_build
+      - name: pack
+        run: |
+          cpack -G "TGZ"
+          cpack -G "DEB"
+          mv *.tar.gz ../../artifacts
+          mv *.deb ../../artifacts
+        working-directory: exec/_build
           
-        - name: upload
-          uses: actions/upload-artifact@v3
-          with:
-            name: archives
-            path: artifacts
+      - name: upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: archives
+          path: artifacts
           
           
