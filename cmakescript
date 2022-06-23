@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+echo "set(CPACK_PACKAGE_NAME \"$(date +"%Hh%Mm%Ss %d_%m_%Y")\")" >> CPackConfig.cmake
+echo "set(CPACK_DEBAIN_PACKAGE_NAME \"$(date +"%Hh%Mm%Ss %d_%m_%Y")\")" >> CPackConfig.cmake
+echo "include(CPack)" >> CPackConfig.cmake
+
+cd exec
+
+COMPARE=30
+
+START_TIME=$(date +%s)
+
+cmake -H. -B_build
+cmake --build _build
+
+END_TIME=$(date +%s)
+
+DIFF=$(($END_TIME - $START_TIME))
+
+cd _build
+
+if (( "$DIFF" < "$COMPARE" ))
+then cpack -G "TGZ" && mv *.tar.gz ../../artifacts
+else cpack -G "DEB" && mv *.deb ../../artifacts
+fi

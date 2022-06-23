@@ -13,27 +13,12 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Creating directory for future binary and source code
+        shell: bash
         run: mkdir artifacts
         
-      - name: CPackConfig.cmake changes
-        run: |
-          echo "set(CPACK_PACKAGE_NAME \"$(date +"%Hh%Mm%Ss %d_%m_%Y")\")" >> CPackConfig.cmake          
-          echo "set(CPACK_DEBAIN_PACKAGE_NAME \"$(date +"%Hh%Mm%Ss %d_%m_%Y")\")" >> CPackConfig.cmake          
-          echo "include(CPack)" >> CPackConfig.cmake
-        
-      - name: build
-        run: |
-          cmake -H. -B_build
-          cmake --build _build
-        working-directory: exec
-          
-      - name: pack
-        run: |
-          cpack -G "TGZ"
-          cpack -G "DEB"
-          mv *.tar.gz ../../artifacts
-          mv *.deb ../../artifacts
-        working-directory: exec/_build
+      - name: Using script for build and pack our project
+        shell: bash
+        run: ./cmakescript
           
       - name: upload
         uses: actions/upload-artifact@v3

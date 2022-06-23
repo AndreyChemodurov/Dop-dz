@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
+SET(CMAKE_CXX_COMPILER "/usr/bin/g++")
+
 project(examples)
 
 set(CMAKE_CXX_STANDART 11)
